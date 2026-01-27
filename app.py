@@ -81,9 +81,9 @@ with col2:
     sale_price_mm = st.slider(
         "Company Sale Price ($M)",
         min_value=20,
-        max_value=1020,
+        max_value=1000,
         value=200,
-        step=25,
+        step=20,
         format="%dM",
         help="Total exit/sale price of the company in millions"
     )
