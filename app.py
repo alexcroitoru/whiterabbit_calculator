@@ -70,7 +70,7 @@ with col1:
     holding_period = st.number_input(
         "Holding Period (Years)",
         min_value=1,
-        max_value=15,
+        max_value=5,
         value=2,
         step=1,
         help="Expected time until exit event"
@@ -79,8 +79,8 @@ with col1:
 with col2:
     sale_price_mm = st.slider(
         "Company Sale Price ($M)",
-        min_value=5,
-        max_value=1005,
+        min_value=20,
+        max_value=1020,
         value=200,
         step=25,
         format="%dM",
