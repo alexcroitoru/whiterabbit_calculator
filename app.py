@@ -33,12 +33,13 @@ with st.sidebar:
     - **Liquidation Preference:** 2x Non-Participating
     - **Fund Profit Split:** 80% LP / 20% GP
     - **Management Fee:** 2% annual (of initial investment)
+    - **Management Carve Out:** Only applies if exit < $200M
     """)
     
     st.divider()
     st.markdown("### How It Works")
     st.markdown("""
-    1. **Exit Proceeds** = Sale Price - Management Carve Out
+    1. **Exit Proceeds** = Sale Price - Management Carve Out (if exit < $200M)
     2. **Your Share** = Greater of:
        - 2x your investment (Liq Pref), OR
        - Your pro-rata ownership %
@@ -96,7 +97,7 @@ with col2:
         value=10.0,
         step=0.5,
         format="%.1f%%",
-        help="Percentage of sale price allocated to management team"
+        help="Percentage of sale price allocated to management team (only applies if sale price < $200M)"
     )
 
 st.divider()
