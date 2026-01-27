@@ -108,8 +108,11 @@ def calculate_waterfall(initial_investment, sale_price, carve_out_pct, holding_p
     # Ownership percentage
     ownership_pct = initial_investment / post_money_val
     
-    # Management carve out
-    carve_out_amount = sale_price * (carve_out_pct / 100)
+    # Management carve out (only applies if sale price < $200M)
+    if sale_price < 200_000_000:
+        carve_out_amount = sale_price * (carve_out_pct / 100)
+    else:
+        carve_out_amount = 0
     
     # Net proceeds after carve out
     net_proceeds = sale_price - carve_out_amount
