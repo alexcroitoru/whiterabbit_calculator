@@ -379,7 +379,7 @@ with tab2:
     st.subheader("Key Return Thresholds")
     
     # Find breakeven and target MOICs
-    thresholds = [0.5, 1.0, 2.0, 3.0, 5.0]
+    thresholds = [1.0, 1.5, 2.0, 3.0, 5.0]
     threshold_results = []
     
     for target_moic in thresholds:
