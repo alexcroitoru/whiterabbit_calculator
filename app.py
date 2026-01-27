@@ -384,7 +384,7 @@ with tab2:
     
     for target_moic in thresholds:
         found = False
-        for exit_val in range(25_000_000, 1_100_000_000, 5_000_000):
+        for exit_val in range(20_000_000, 1_000_000_000, 5_000_000):
             r = calculate_waterfall(initial_investment, exit_val, carve_out_pct, holding_period, POST_MONEY_VALUATION)
             if r['moic'] >= target_moic:
                 threshold_results.append({
