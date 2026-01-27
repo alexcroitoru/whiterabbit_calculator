@@ -274,7 +274,7 @@ with tab1:
     waterfall_data = [
         ("Sale Price", sale_price, sale_price),
         ("Management Carve Out", -results['carve_out_amount'], results['net_proceeds']),
-        ("Other Shareholders", -(results['net_proceeds'] - results['fund_gross_proceeds']), results['fund_gross_proceeds']),
+        ("To Shareholders", -(results['net_proceeds'] - results['fund_gross_proceeds']), results['fund_gross_proceeds']),
         ("Management Fees", -results['management_fees'], results['fund_gross_proceeds'] - results['management_fees']),
         ("GP Carry", -results['gp_carry'], results['total_to_investor']),
     ]
