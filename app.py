@@ -79,8 +79,8 @@ with col1:
 with col2:
     sale_price_mm = st.slider(
         "Company Sale Price ($M)",
-        min_value=25,
-        max_value=1000,
+        min_value=5,
+        max_value=1005,
         value=200,
         step=25,
         format="%dM",
