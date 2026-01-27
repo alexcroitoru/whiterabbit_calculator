@@ -351,7 +351,7 @@ with tab2:
     st.write("**Net Proceeds to Investor by Exit Value**")
     net_chart_data = {
         "Exit Value ($M)": [v / 1e6 for v in exit_values],
-        "Net Proceeds ($M)": net_proceeds_list
+        "Net Proceeds ($M)": [v / 1e6 for v in net_proceeds_list]
     }
     st.line_chart(net_chart_data, x="Exit Value ($M)", y="Net Proceeds ($M)")
     
