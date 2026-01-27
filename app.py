@@ -402,6 +402,20 @@ with tab2:
                 delta=result['Exit Multiple']
             )
 
+
 # Footer
 st.divider()
-st.caption("Built for investment analysis • $10M fund size • $80M post-money valuation • 2x non-participating liquidation preference")
+st.caption("$10M fund size | $80M post-money valuation | 2x non-participating liquidation preference")
+
+st.divider()
+st.markdown("""
+**Disclaimer**
+
+This calculator is provided for informational and illustrative purposes only and does not constitute investment, financial, legal, or tax advice. The projections and calculations presented are based on hypothetical assumptions and simplified models that may not reflect actual investment outcomes.
+
+Past performance is not indicative of future results. Actual returns may vary materially due to factors including but not limited to: market conditions, deal terms, timing of exits, tax implications, and other variables not accounted for in this model.
+
+This tool should not be relied upon as the sole basis for any investment decision. Users are strongly encouraged to consult with qualified financial, legal, and tax advisors before making any investment decisions. The creators and providers of this calculator assume no liability for any losses or damages arising from the use of this tool.
+
+By using this calculator, you acknowledge that you understand these limitations and assume all risks associated with any decisions made based on the information provided.
+""", help=None)
