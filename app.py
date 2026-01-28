@@ -28,8 +28,8 @@ st.divider()
 with st.sidebar:
     st.header("Fixed Assumptions")
     st.markdown("""
-    - **Fund Size:** $10M
-    - **Post-Money Valuation:** $80M
+    - **Fund Size:** $7M
+    - **Post-Money Valuation:** $82M
     - **Liquidation Preference:** 2x Non-Participating
     - **Fund Profit Split:** 80% LP / 20% GP
     - **Management Fee:** 2% annual (of initial investment)
@@ -50,7 +50,8 @@ with st.sidebar:
     """)
 
 # Constants
-POST_MONEY_VALUATION = 80_000_000  # $80M
+POST_MONEY_VALUATION = 82_000_000  # $80M
+
 
 # Main input section
 st.header("Input Parameters")
