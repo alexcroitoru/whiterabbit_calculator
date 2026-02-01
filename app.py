@@ -30,7 +30,7 @@ with st.sidebar:
     st.markdown("""
     - **Fund Size:** $10M
     - **Post-Money Valuation:** $82M
-    - **Fund Ownership:** ~8.54% of company
+    - **Fund Ownership:** ~12.2% of company
     - **Liquidation Preference:** 2x Non-Participating (on fund investment)
     - **Fund Profit Split:** 80% LP / 20% GP
     - **Management Fee:** 2% annual (of fund size)
@@ -53,7 +53,7 @@ with st.sidebar:
 # Constants
 FUND_SIZE = 10_000_000  # $10M fund
 POST_MONEY_VALUATION = 82_000_000  # $82M valuation
-FUND_OWNERSHIP_PCT = FUND_SIZE / POST_MONEY_VALUATION  # ~8.54%
+FUND_OWNERSHIP_PCT = FUND_SIZE / POST_MONEY_VALUATION  # ~12.19%
 
 # Main input section
 st.header("Input Parameters")
