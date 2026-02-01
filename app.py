@@ -28,7 +28,7 @@ st.divider()
 with st.sidebar:
     st.header("Fixed Assumptions")
     st.markdown("""
-    - **Fund Size:** $7M
+    - **Fund Size:** $10M
     - **Post-Money Valuation:** $82M
     - **Fund Ownership:** ~8.54% of company
     - **Liquidation Preference:** 2x Non-Participating (on fund investment)
@@ -51,7 +51,7 @@ with st.sidebar:
     """)
 
 # Constants
-FUND_SIZE = 7_000_000  # $7M fund
+FUND_SIZE = 10_000_000  # $10M fund
 POST_MONEY_VALUATION = 82_000_000  # $82M valuation
 FUND_OWNERSHIP_PCT = FUND_SIZE / POST_MONEY_VALUATION  # ~8.54%
 
@@ -61,7 +61,7 @@ st.header("Input Parameters")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown(f"**Fund Size:** $7.00M")
+    st.markdown(f"**Fund Size:** $10.00M")
     st.markdown(f"**Post-Money Valuation:** $82.00M")
     st.markdown(f"**Fund Ownership of Company:** {FUND_OWNERSHIP_PCT*100:.2f}%")
     
@@ -74,7 +74,7 @@ with col1:
         value=2.0,
         step=0.1,
         format="%.2f",
-        help="Your contribution to the $7M fund"
+        help="Your contribution to the $10M fund"
     )
     investor_contribution = investor_contribution_mm * 1_000_000
     investor_fund_pct = investor_contribution / FUND_SIZE
@@ -478,7 +478,7 @@ with tab2:
 
 # Footer
 st.divider()
-st.caption("$7M fund | $82M post-money | Fund owns 8.54% of company | 2x non-participating liquidation preference | Management carve out applies only below $200M exit")
+st.caption("$10M fund | $82M post-money | Fund owns 12.19% of company | 2x non-participating liquidation preference | Management carve out applies only below $200M exit")
 
 st.divider()
 st.markdown("""
