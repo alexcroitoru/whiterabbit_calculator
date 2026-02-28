@@ -182,6 +182,25 @@ def calculate_waterfall(fund_size, investor_contribution, sale_price, carve_out_
             irr = None
     except:
         irr = None
+
+    # Tax calculations (only on gains)
+    federal_ltcg_rate = 0.20
+    state_tax_rate = 0.05
+    total_tax_rate = federal_ltcg_rate + state_tax_rate
+    
+    # Taxable gain (only if investor made a profit)
+    investor_gain = max(investor_total - investor_contribution, 0)
+    
+    # Taxes owed
+    federal_tax = investor_gain * federal_ltcg_rate
+    state_tax = investor_gain * state_tax_rate
+    total_tax = investor_gain * total_tax_rate
+    
+    # Net after-tax return
+    investor_net_after_tax = investor_total - total_tax
+    
+    # After-tax MOIC
+    investor_moic_after_tax = investor_net_after_tax / investor_contribution if investor_contribution > 0 else 0
     
     return {
         # Company-level
@@ -206,7 +225,15 @@ def calculate_waterfall(fund_size, investor_contribution, sale_price, carve_out_
         'investor_profit_share': investor_profit_share,
         'investor_total': investor_total,
         'investor_moic': investor_moic,
-        'irr': irr
+        'irr': irr,
+        
+        # Tax calculations
+        'investor_gain': investor_gain,
+        'federal_tax': federal_tax,
+        'state_tax': state_tax,
+        'total_tax': total_tax,
+        'investor_net_after_tax': investor_net_after_tax,
+        'investor_moic_after_tax': investor_moic_after_tax
     }
 
 # Run calculations
@@ -224,38 +251,45 @@ st.header("Results Breakdown")
 
 # Key Metrics Row - Investor Level
 st.subheader("Your Investment Returns")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.metric(
-        label="Net to You",
+        label="Gross Return",
         value=f"${results['investor_total']/1e6:,.2f}M",
         delta=f"${(results['investor_total'] - investor_contribution)/1e6:,.2f}M"
     )
 
 with col2:
     st.metric(
-        label="Your MOIC",
-        value=f"{results['investor_moic']:.2f}x"
+        label="Taxes (25%)",
+        value=f"${results['total_tax']/1e6:,.2f}M"
     )
 
 with col3:
+    st.metric(
+        label="Net After Tax",
+        value=f"${results['investor_net_after_tax']/1e6:,.2f}M",
+        delta=f"${(results['investor_net_after_tax'] - investor_contribution)/1e6:,.2f}M"
+    )
+
+with col4:
+    st.metric(
+        label="After-Tax MOIC",
+        value=f"{results['investor_moic_after_tax']:.2f}x"
+    )
+
+with col5:
     if results['irr'] is not None:
         st.metric(
-            label="Your IRR",
+            label="Pre-Tax IRR",
             value=f"{results['irr']*100:.1f}%"
         )
     else:
         st.metric(
-            label="Your IRR",
+            label="Pre-Tax IRR",
             value="N/A"
         )
-
-with col4:
-    st.metric(
-        label="Your Fund Ownership",
-        value=f"{results['investor_fund_pct']*100:.2f}%"
-    )
 
 st.divider()
 
@@ -308,13 +342,20 @@ with col_right:
     
     st.write(f"Your Return of Capital: ${results['investor_return_of_capital']/1e6:,.2f}M")
     st.write(f"Your Profit Share: ${results['investor_profit_share']/1e6:,.2f}M")
-    st.write(f"**Total to You: ${results['investor_total']/1e6:,.2f}M**")
+    st.write(f"**Gross to You: ${results['investor_total']/1e6:,.2f}M**")
     
     st.divider()
     
-    st.write(f"**Your MOIC: {results['investor_moic']:.2f}x**")
-    if results['irr'] is not None:
-        st.write(f"**Your IRR: {results['irr']*100:.1f}%**")
+    st.write("**Tax Deductions**")
+    st.write(f"Taxable Gain: ${results['investor_gain']/1e6:,.2f}M")
+    st.write(f"Federal LTCG (20%): (${results['federal_tax']/1e6:,.2f}M)")
+    st.write(f"State Tax (5%): (${results['state_tax']/1e6:,.2f}M)")
+    st.write(f"**Total Tax: (${results['total_tax']/1e6:,.2f}M)**")
+    
+    st.divider()
+    
+    st.write(f"**Net After Tax: ${results['investor_net_after_tax']/1e6:,.2f}M**")
+    st.write(f"**After-Tax MOIC: {results['investor_moic_after_tax']:.2f}x**")
 
 st.divider()
 
@@ -328,13 +369,14 @@ with tab1:
     
     # Create a text-based waterfall visualization
     waterfall_data = [
-        ("Company Sale Price", sale_price, sale_price),
-        ("Management Carve Out", -results['carve_out_amount'], results['net_proceeds']),
-        ("To Other Shareholders", -(results['net_proceeds'] - results['fund_gross_proceeds']), results['fund_gross_proceeds']),
-        ("Fund Management Fees", -results['total_management_fees'], results['fund_net_proceeds']),
-        ("GP Carry", -results['total_gp_carry'], results['total_lp_distributions']),
-        ("To Other LPs", -(results['total_lp_distributions'] - results['investor_total']), results['investor_total']),
-    ]
+    ("Company Sale Price", sale_price, sale_price),
+    ("Management Carve Out", -results['carve_out_amount'], results['net_proceeds']),
+    ("To Other Shareholders", -(results['net_proceeds'] - results['fund_gross_proceeds']), results['fund_gross_proceeds']),
+    ("Fund Management Fees", -results['total_management_fees'], results['fund_net_proceeds']),
+    ("GP Carry", -results['total_gp_carry'], results['total_lp_distributions']),
+    ("To Other LPs", -(results['total_lp_distributions'] - results['investor_total']), results['investor_total']),
+    ("Taxes (25%)", -results['total_tax'], results['investor_net_after_tax']),
+]
     
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -359,12 +401,11 @@ with tab1:
     st.divider()
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.write("**Net to You**")
+        st.write("**Net to You (After Tax)**")
     with col2:
         st.write("")
     with col3:
-        st.write(f"**:blue[${results['investor_total']/1e6:,.2f}M]**")
-    
+        st.write(f"**:blue[${results['investor_net_after_tax']/1e6:,.2f}M]**")        
     # Bar chart representation
     st.subheader("Visual Breakdown")
     
@@ -408,25 +449,24 @@ with tab2:
     
     for exit_val in exit_values:
         r = calculate_waterfall(FUND_SIZE, investor_contribution, exit_val, carve_out_pct, holding_period, POST_MONEY_VALUATION)
-        moics.append(r['investor_moic'])
+        moics.append(r['investor_moic_after_tax'])  # Changed from investor_moic
         irrs.append(r['irr'] * 100 if r['irr'] is not None else 0)
-        net_proceeds_list.append(r['investor_total'])
-    
+        net_proceeds_list.append(r['investor_net_after_tax'])  # Changed from investor_total        
     # Net Proceeds Chart
-    st.write("**Your Net Proceeds by Exit Value**")
+    st.write("**Your Net Proceeds (After Tax) by Exit Value**")
     net_chart_data = {
         "Exit Value ($M)": [v / 1e6 for v in exit_values],
-        "Your Net Proceeds ($M)": [v / 1e6 for v in net_proceeds_list]
+        "Net After Tax ($M)": [v / 1e6 for v in net_proceeds_list]
     }
-    st.line_chart(net_chart_data, x="Exit Value ($M)", y="Your Net Proceeds ($M)")
+    st.line_chart(net_chart_data, x="Exit Value ($M)", y="Net After Tax ($M)")
     
     # MOIC Chart
-    st.write("**Your MOIC by Exit Value**")
+    st.write("**Your After-Tax MOIC by Exit Value**")
     moic_chart_data = {
         "Exit Value ($M)": [v / 1e6 for v in exit_values],
-        "MOIC": moics
+        "After-Tax MOIC": moics
     }
-    st.line_chart(moic_chart_data, x="Exit Value ($M)", y="MOIC")
+    st.line_chart(moic_chart_data, x="Exit Value ($M)", y="After-Tax MOIC")
     
     # IRR Chart
     st.write("**Your IRR by Exit Value**")
