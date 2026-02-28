@@ -46,6 +46,7 @@ with st.sidebar:
     3. Management fees deducted, then 80/20 LP/GP split on profits
     
     **Investor Level:**
+    
     4. Your ownership of fund = Your Contribution / Fund Size
     5. You receive your % of all LP distributions
     """)
