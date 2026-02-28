@@ -70,7 +70,7 @@ with col1:
     investor_contribution_mm = st.number_input(
         "Your Investment in Fund ($M)",
         min_value=0.01,
-        max_value=7.0,
+        max_value=10.0,
         value=2.0,
         step=0.1,
         format="%.2f",
